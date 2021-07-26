@@ -5,7 +5,7 @@ from pandas.core.frame import DataFrame
 
 
 # Declare variable
-iteration_number: int = 3
+iteration_number: int = 20
 iteration_x: DataFrame = pd.DataFrame()
 iteration_y: DataFrame = pd.DataFrame()
 df : DataFrame = pd.read_csv("raw_data.csv")
@@ -68,8 +68,9 @@ def main():
         group = group_data(distance_1, distance_2, distance_3)
         # calculate mean of x,y of each group and set it as newcentoid
         calculate_centoid(iter,group)
-    print(iteration_x)
-    print(iteration_y)
+    print(f"centoid 1: ({iteration_x[iteration_number-1][0]}, {iteration_y[iteration_number-1][0]})")
+    print(f"centoid 2: ({iteration_x[iteration_number-1][1]}, {iteration_y[iteration_number-1][1]})")
+    print(f"centoid 3: ({iteration_x[iteration_number-1][2]}, {iteration_y[iteration_number-1][2]})")
 
 if __name__ == "__main__":
     main()
