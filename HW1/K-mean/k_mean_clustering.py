@@ -1,6 +1,7 @@
+import matplotlib.pyplot as plt
 import numpy as np
-from numpy.core.function_base import linspace
 import pandas as pd
+from numpy.core.function_base import linspace
 from pandas.core.frame import DataFrame
 
 
@@ -12,14 +13,14 @@ df : DataFrame = pd.read_csv("raw_data.csv")
 ######################################################
 # HW 1, given data...
 # for question 1
-centoid_1: list = {'x': 3, 'y': 3}
-centoid_2: list = {'x': 2, 'y': 2}
-centoid_3: list = {'x': -3, 'y': 3}
+# centoid_1: list = {'x': 3, 'y': 3}
+# centoid_2: list = {'x': 2, 'y': 2}
+# centoid_3: list = {'x': -3, 'y': 3}
 
 # # for question 2
-# centoid_1: list = {'x': -3, 'y': -3}
-# centoid_2: list = {'x': 2, 'y': 2}
-# centoid_3: list = {'x': -7, 'y': -7}
+centoid_1: list = {'x': -3, 'y': -3}
+centoid_2: list = {'x': 2, 'y': 2}
+centoid_3: list = {'x': -7, 'y': -7}
 ######################################################
 
 def get_distance(df: DataFrame, centoid: list) -> list:
@@ -58,6 +59,20 @@ def calculate_centoid(iter: int,group: list) -> None:
     iteration_x[iter] = new_centoid_x
     iteration_y[iter] = new_centoid_y
 
+def plot_group(iter, group, df):
+    title = "iteration : " + str(iter)
+    plt.title(title)
+    plt.grid()
+    group_color = {"1":"red", "2":"green", "3":"blue"}
+    for i in range(len(group)):
+        plt.scatter(df["x"][i],df["y"][i], alpha=0.5, c=group_color[group[i]])
+    plt.scatter(centoid_1["x"], centoid_1["y"], c="black", marker="D")
+    plt.scatter(centoid_2["x"], centoid_2["y"], c="black", marker="D")
+    plt.scatter(centoid_3["x"], centoid_3["y"], c="black", marker="D")
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.show()
+
 def main():
     for iter in range(iteration_number):
         # calculate distance between data and each centoid
@@ -66,8 +81,11 @@ def main():
         distance_3: list = get_distance(df, centoid_3)
         # group a data to the nearest centoid
         group = group_data(distance_1, distance_2, distance_3)
+        # scatter plot k_mean vs data
+        plot_group(iter, group, df)
         # calculate mean of x,y of each group and set it as newcentoid
         calculate_centoid(iter,group)
+    plot_group("final answer", group, df)
     print(f"centoid 1: ({iteration_x[iteration_number-1][0]}, {iteration_y[iteration_number-1][0]})")
     print(f"centoid 2: ({iteration_x[iteration_number-1][1]}, {iteration_y[iteration_number-1][1]})")
     print(f"centoid 3: ({iteration_x[iteration_number-1][2]}, {iteration_y[iteration_number-1][2]})")
